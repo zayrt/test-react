@@ -1,24 +1,14 @@
 import React, { unstable_Profiler as Profiler } from 'react';
-import { render } from "react-dom";
-import logo from './logo.svg';
 import './App.css';
-
-function Logo() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
-    </div>
-  );
-}
 
 class App extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      value: 0,
+      values: [],
+    };
+    this.incrementValue = this.incrementValue.bind(this);
     this.clockPerformance = this.clockPerformance.bind(this);
   }
 
@@ -26,11 +16,30 @@ class App extends React.Component {
     console.log({ profilerId, mode, actualTime, baseTime, startTime, commitTime });
   }
 
+  incrementValue() {
+    for (let i = 0; i < 1000; i++) {
+      setTimeout(() => {
+        this.setState(() => ({
+          value: this.state.value + 1,
+        }));
+      }, 1);
+    }
+  }
+
   render() {
     return (
-      <Profiler id="test" onRender={this.clockPerformance}>
-        <Logo />
-      </Profiler>
+      <div className="App">
+        <button
+          ref={ref => (this.btnRef = ref)}
+          className="button"
+          onClick={this.incrementValue}
+        >
+          increment
+        </button>
+        <Profiler id="test" onRender={this.clockPerformance}>
+          <div>{this.state.value}</div>
+        </Profiler>
+      </div>
     );
   }
 }
