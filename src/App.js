@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { unstable_Profiler as Profiler } from 'react';
+import { render } from "react-dom";
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function Logo() {
   return (
     <div className="App">
       <header className="App-header">
@@ -10,17 +11,30 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
 }
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.clockPerformance = this.clockPerformance.bind(this);
+  }
+
+  clockPerformance(profilerId, mode, actualTime, baseTime, startTime, commitTime) {
+    console.log({ profilerId, mode, actualTime, baseTime, startTime, commitTime });
+  }
+
+  render() {
+    return (
+      <Profiler id="test" onRender={this.clockPerformance}>
+        <Logo />
+      </Profiler>
+    );
+  }
+}
+
+
 
 export default App;
