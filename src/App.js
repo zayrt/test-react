@@ -22,7 +22,7 @@ class App extends React.Component {
         this.setState(() => ({
           value: this.state.value + 1,
         }));
-      }, 1);
+      }, 0);
     }
   }
 
